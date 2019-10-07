@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>hw4 assignment 1</title>
+    <link rel="stylesheet" href="style1.css">
+  </head>
+  <body>
+
+    <h1 style="color: #74b9ff; margin-top: 40px; font-size: 70px;">
+      QUICK PICK! <br>
+      ARE YOU LUCKY?<br>
+
+    </h1>
+
+    <form style="text-align: center; margin-top: 50px;">
+      <input class="inputbox" type="text" value="" placeholder="please enter 5 integer from 1 to 48, separated by space" id="nums">
+      <input class="inputbox" type="text" value="" placeholder="please enter 1 integer as lucky number from 1 to 18" id="luckyNum">
+      <br>
+      <input id="submitButton" type="button" value="Submit your number" onclick="calcResult()">
+    </form>
+
+    <h2>The 6 numbers you have entered: </h2>
+    <h2 id="nonSortedNumEntered" style="color: #74b9ff;""></h2> <br>
+    <h2>The 6 numbers sorted: </h2>
+    <h2 id="sortedNumEntered" style="color: #74b9ff;""></h2> <br>
+    <h2 id="youwin">You win: </h2>
+    <h2 id="payout" style="color: #74b9ff;""></h2> <br>
+    <h2 id="disp5Num">the 5 numbers are: </h2> <h2 id="correct" style="color: #74b9ff;""></h2>
+    <h2 id="dispLucky">the lucky number is: </h2> <h2 id="lucky" style="color: #74b9ff;""></h2>
+
+
+            <script language="javascript">
+              document.getElementById('youwin').style.visibility = "hidden";
+              document.getElementById('payout').style.visibility = "hidden";
+              document.getElementById('disp5Num').style.visibility = "hidden";
+              document.getElementById('correct').style.visibility = "hidden";
+              document.getElementById('dispLucky').style.visibility = "hidden";
+              document.getElementById('lucky').style.visibility = "hidden";
+
+
+
+
+              // create array that stores 6 numbers, excluding lucky number
+              var correctNums = new Array(5);
+              // populate correct number Array
+              for (i = 0; i < 5; i++) {
+                correctNums[i] = Math.floor(Math.random() * 48 + 1); //integer from 1-48
+              }
+
+              //display the 5 numbers to check
+              //for (i = 0; i < 5; i++) {
+              //  document.write(correctNums[i] + "<br>");
+              //}
+
+
+              // create the correct lucky number
+              var correctLuckyNum = Math.floor(Math.random() * 18 + 1);
+              //display lucky ball number to check
+              //document.write("the lucky ball numebr is " + correctLuckyNum + "<br>");
+
+              // store everything in the Array
+
+
+
+              function calcResult () {
+                document.getElementById('youwin').style.visibility = "visible";
+                document.getElementById('payout').style.visibility = "visible";
+                document.getElementById('disp5Num').style.visibility = "visible";
+                document.getElementById('correct').style.visibility = "visible";
+                document.getElementById('dispLucky').style.visibility = "visible";
+                document.getElementById('lucky').style.visibility = "visible";
+
+                var enteredNumsString;
+                var enteredNumsArray = new Array();
+                var luckyNumberEntered;
+                enteredNumsString = document.getElementById('nums').value;
+                //alert(enteredNumsString);
+
+                luckyNumberEntered = document.getElementById('luckyNum').value;
+                //alert(luckyNumberEntered);
+
+                // split the string with whitespace
+                enteredNumsString = enteredNumsString.split(" ");
+                for (i = 0; i < enteredNumsString.length; i++) {
+                  enteredNumsArray.push(enteredNumsString[i]);
+                }
+                //alert(enteredNumsArray);
+
+                var enteredNums = new Array(5);
+                for (i = 0; i < enteredNumsArray.length; i++) {
+                  enteredNums[i] = parseInt(enteredNumsArray[i]);
+                }
+
+                document.getElementById('correct').innerHTML = correctNums;
+                document.getElementById('lucky').innerHTML = correctLuckyNum;
+
+
+
+                //alert(enteredNums);
+                enteredNums.push(luckyNumberEntered);
+                document.getElementById('nonSortedNumEntered').innerHTML = enteredNums;
+                enteredNums.sort(function(a, b){return a-b});
+                document.getElementById('sortedNumEntered').innerHTML = enteredNums;
+
+
+                var numOfMatch = 0;
+                var luckyMatch = false;
+                // compare and calculate
+                for (i = 0; i < 5; i++) {
+                  for (j = 0; j < 5; j++) {
+                    //compare enter nums with correct nums
+                    if (enteredNums[i] == correctNums[j]) {
+                      numOfMatch++;
+                    }
+                  }
+                }
+
+                //alert("there are " + numOfMatch + " numbers matched");
+
+                if (luckyNumberEntered == correctLuckyNum) {
+                  luckyMatch = true;
+                }
+
+                //alert(luckyMatch);
+
+                if (luckyMatch == true) {
+                  switch (numOfMatch) {
+                    case 1:
+                    document.getElementById('payout').innerHTML = "$6";
+                      break;
+                    case 2:
+                    document.getElementById('payout').innerHTML = "$25";
+                      break;
+                    case 3:
+                    document.getElementById('payout').innerHTML = "$150";
+                      break;
+                    case 4:
+                    document.getElementById('payout').innerHTML = "$5000";
+                      break;
+                    case 5:
+                    document.getElementById('payout').innerHTML = "$7000 a week for life!";
+                      break;
+                    default:
+                    document.getElementById('payout').innerHTML = "$4";
+                  }
+                } else {
+                  switch (numOfMatch) {
+                    case 2:
+                    document.getElementById('payout').innerHTML = "$3";
+                      break;
+                    case 3:
+                    document.getElementById('payout').innerHTML = "$20";
+                      break;
+                    case 4:
+                    document.getElementById('payout').innerHTML = "$200";
+                      break;
+                    case 5:
+                    document.getElementById('payout').innerHTML = "$25000 a year for life";
+                      break;
+                    default:
+                    document.getElementById('payout').innerHTML = "$0";
+                }
+
+              }
+            }
+            </script>
+  </body>
+</html>
